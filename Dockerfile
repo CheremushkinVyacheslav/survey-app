@@ -10,10 +10,8 @@ RUN docker-php-ext-install pdo pdo_mysql pdo_pgsql
 COPY . /var/www/html/
 WORKDIR /var/www/html/
 
-# Render требует порт 10000
-EXPOSE 10000
-ENV PORT=10000
-RUN sed -i "s/80/$PORT/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+# Настраиваем порт 10000 (требование Render)
+RUN sed -i "s/80/10000/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 
-# Права для Apache
-RUN chown -R www-www-data /var/www/html/
+# Права для Apache (исправлено: www-data, а не www-www-data)
+RUN chown -R www-data:www-data /var/www/html/
